@@ -1,10 +1,11 @@
 from develop.routes import Route
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
-class BotList(Route):
+class BotList(Route, APIView):
+
     def set_response(self, data):
-        print(data)
-
         if "result" in data:
             for item in data['result']:
                 item["response_code"] = 0

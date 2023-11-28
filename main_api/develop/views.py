@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from .models import User
-from .routes import *
+# from .routes import *
 from .serializers import UserSerializer
 from django.middleware.csrf import get_token
 
@@ -22,8 +22,8 @@ class RegisterAPIView(APIView):
         return Response({"notification": "Register view is not necessary here!"})
 
     def post(self, request):
-        email, password, created_at = request.query_params.get("email"), request.query_params.get("password"), datetime.datetime.utcnow().isoformat()
-
+        email, password, created_at = request.data["email"], request.data["password"], datetime.datetime.utcnow().isoformat()
+        print(email, password)
         if email == "admin@admin.ru" and password == "qwerty123456":
             user = User.objects.get_or_create(email=email, defaults={"password": password, "created_at": created_at})[0]
             serializer = UserSerializer(user)
@@ -48,8 +48,8 @@ class LoginAPIView(APIView):
         return Response({"notification": "Login view is not necessary here!"})
 
     def post(self, request):
-        email = request.query_params.get("email")
-        password = request.query_params.get("password")
+        email = request.data["email"]
+        password = request.data["password"]
         if email == "admin@admin.ru" and password == "qwerty123456":
             response = {
                 "status": status.HTTP_200_OK,
