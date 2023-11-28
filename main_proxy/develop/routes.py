@@ -54,12 +54,10 @@ class Route(RouteTemplate):
         self.set_response(response.json())
         new_response = None
 
-        if 200 <= response.status_code <= 300:
-            # new_response = self.success(response)\
+        if 200 <= response.status_code < 300:
             new_response = self.success(self.get_response())
 
         if 400 <= response.status_code <= 500:
-            # new_response = self.error(response)
             new_response = self.error(self.get_response())
 
         if new_response is None:

@@ -2,6 +2,17 @@ from develop.routes import Route
 
 
 class BotList(Route):
+    def set_response(self, data):
+        print(data)
+
+        if "result" in data:
+            for item in data['result']:
+                item["response_code"] = 0
+
+        elif "error" in data:
+            data["error"]["response_error_code"] = 1
+
+        return super().set_response(data)
 
     def success(self, response):
         items = response["result"]

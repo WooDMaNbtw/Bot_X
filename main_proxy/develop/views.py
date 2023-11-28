@@ -22,8 +22,6 @@ http://core.webstktw.beget.tech/docs/?path=bot.yaml
 class BotListView(APIView):
     def get(self, request):
         status, data = BotList().send()
-        print(status)
-        print(data)
         return Response(status=status, data=data)
 
 
@@ -40,11 +38,13 @@ class RegisterView(APIView):
         register.set_parameters(data)
         return Response(register.send())
 
+
 class LoginView(APIView):
     def get(self, request):
         login = Login()
         data = request.query_params.dict()
         login.set_parameters(data)
         return Response(login.send())
+
 
 
