@@ -2,11 +2,16 @@ from django.urls import path, include
 from .views import BotListView, BotIdView, RegisterView, LoginView
 
 urlpatterns = [
-    path("proxy/data", BotListView.as_view()),
+    path("api/v0/bots", BotListView.as_view()),
     path("proxy/data/bot", BotIdView.as_view()),
     path("proxy/data/auth/register", RegisterView.as_view()),
     path("proxy/data/auth/login", LoginView.as_view())
 ]
+
+
+# routes {
+#     "BotId": "BotId.py"
+# }
 
 
 # from django.urls import path, include

@@ -11,7 +11,6 @@ class RouteTemplate(ABC):
 
     def set_parameters(self, data):
         self.parameters = data
-        print(self.parameters)
 
     def get_parameters(self):
         return self.parameters
@@ -32,6 +31,12 @@ class RouteTemplate(ABC):
     def get_method(self):
         pass
 
+    def success(self):
+        pass
+
+    def error(self):
+        pass
+
 
 class Route(RouteTemplate):
 
@@ -45,10 +50,29 @@ class Route(RouteTemplate):
 
     def send(self, id=""):
         url = f'{self.BASE_URL}{self.APP_ID}'
-        print(self.get_patch())
         response = requests.request(self.get_method(), f"{url}{self.get_patch(id)}", params=self.get_parameters())
         self.set_response(response.json())
-        return self.get_response()
+        new_response = None
+
+        if 200 <= response.status_code <= 300:
+            # new_response = self.success(response)\
+            new_response = self.success(self.get_response())
+
+        if 400 <= response.status_code <= 500:
+            # new_response = self.error(response)
+            new_response = self.error(self.get_response())
+
+        if new_response is None:
+            new_response = response
+
+        return response.status_code, new_response
+
+    def success(self, response):
+        return response
+
+    def error(self, response):
+        return response
+
 
 
 

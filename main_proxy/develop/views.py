@@ -21,7 +21,10 @@ http://core.webstktw.beget.tech/docs/?path=bot.yaml
 
 class BotListView(APIView):
     def get(self, request):
-        return Response(BotList().send())
+        status, data = BotList().send()
+        print(status)
+        print(data)
+        return Response(status=status, data=data)
 
 
 class BotIdView(APIView):
